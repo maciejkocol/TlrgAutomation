@@ -162,62 +162,6 @@ namespace TlrgAutomation.Tests
             Assert.AreEqual(expectedStatus, actualStatus);
         }
 
-        [Test, Retry(2), Category("Smoke")]
-        [NonParallelizable]
-        public void TimeoutWaterfallProcess()
-        {
-            string customerId = load.OptiCustomerId;
-            string carrier1Id = "";
-            string carrier2Id = "";
-            string timeOut = "2";
-            while (carrier1Id == carrier2Id)
-            {
-                carrier1Id = dbAccess.GetUnsyncedCarrierRow()["CarrierId"].ToString();
-                carrier2Id = dbAccess.GetUnsyncedCarrierRow()["CarrierId"].ToString();
-            }
-            string uniqueName = "qa" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            AccountsPage optimizerAccountsPageElements = new AccountsPage()
-                .SyncCustomerWithTlrg(customerId);
-            SettingsPage settingsPage = new SettingsPage()
-                .ClickCustomerSettingsGeneralLink()
-                .SearchAndSelectCustomer(customerId)
-                .SetCustomerGeneralFields(timeOut, "125", "1", uniqueName + "@echo.com", "(GMT -6:00) Central Time (US & Canada), Mexico City")
-                .ClickSaveButton()
-                .WaitForSaveConfirmation()
-                .SyncNewCarrier(carrier1Id)
-                .SyncNewCarrier(carrier2Id);
-            PricingUploadPage pricingUploadPage = new PricingUploadPage()
-                .UploadLineHaulMultiRates(customerId, carrier1Id, "qa" + DateTime.Now.ToString("yyyyMMddHHmmssfff"))
-                .UploadFuelSchedule(customerId, carrier1Id)
-                .UploadSpecialServices(customerId, carrier1Id)
-                .UploadLineHaulMultiRates(customerId, carrier2Id, "qa" + DateTime.Now.ToString("yyyyMMddHHmmssfff"))
-                .UploadFuelSchedule(customerId, carrier2Id)
-                .UploadSpecialServices(customerId, carrier2Id);
-            CreateMultiStopLoadShipmentBuilder();
-            string expectedLoadId = loadDetailsPage.GetLoadIdDisplayed();
-            loadDetailsPage.ClickElement(loadDetailsPage.StartTlrgButton);
-            string actualWarning = driver.FindElementBy(loadDetailsPage.LoadWarning).Text;
-            string expectedWarning = "You are currently viewing a READ ONLY version of this page. No changes are allowed.";
-            string expectedStatus = "In Progress";
-            Assert.AreEqual(expectedWarning, actualWarning);
-            HomePage homePage = new HomePage();
-            homePage.ClickAllTab()
-                .WaitForStartTlrgLoad(expectedLoadId, customerId, expectedStatus)
-                .SearchAndSelectCustomer(customerId)
-                .FilterLoads(homePage.LoadIdField, expectedLoadId);
-
-
-
-
-            IList<string> actualLoad = homePage.GetLoadAtIndex(0);
-            string actualLoadId = actualLoad[0];
-            string actualCogs = actualLoad[3];
-            string actualStatus = actualLoad[4];
-            Assert.AreEqual(expectedLoadId, actualLoadId);
-            //Assert.AreEqual(expectedCogs, actualCogs);
-            Assert.AreEqual(expectedStatus, actualStatus);
-        }
-
         //[Test, Category("EchoDrive")]
         //[NonParallelizable]
         public void CreateRandomLoadTest()
