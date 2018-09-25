@@ -4,8 +4,9 @@ using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using TlrgAutomation.Managers;
 
-namespace Tlrg.Tests
+namespace TlrgAutomation.Tests
 {
     public class BaseTest
     {
@@ -13,7 +14,8 @@ namespace Tlrg.Tests
         protected static IWebDriver driver;
 
         static protected EnvironmentManager.Environment env;
-        
+        static protected DatabaseAccessManager dbAccess;
+
         private static readonly List<string> _processesToCheck =
         new List<string>
         {
@@ -65,7 +67,9 @@ namespace Tlrg.Tests
         public void OneTimeSetUp()
         {
             CleanBrowserInstance();
-            env = EnvironmentManager.GetEnvironment(TestContext.Parameters["TLRGEnv"] ?? "DEV2");
+            env = EnvironmentManager
+                .GetEnvironment(TestContext.Parameters["TLRGEnv"] ?? Properties.RunSettings.Default.Run_Environment);
+            dbAccess = new DatabaseAccessManager();
         }
 
         [OneTimeTearDown]
@@ -78,16 +82,8 @@ namespace Tlrg.Tests
         [SetUp]
         protected virtual void Setup()
         {
-            TestRunStartTime = DateTime.Now;
-            ChromeOptions options = new ChromeOptions();
-            if (env.Headless)
-            {
-                options.AddArgument("--headless");
-                options.AddArgument("window-size=1980,1080");
-                options.AddArgument("--disable-gpu");
-                options.AddArgument("--disable-extensions");
-            }
-            driver = new ChromeDriver(options);
+            Fixtures.InitializeWebDriver();
+            driver = Fixtures.GetWebDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             driver.Manage().Window.Maximize();
         }

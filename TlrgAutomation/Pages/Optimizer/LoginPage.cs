@@ -3,13 +3,13 @@ using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace Tlrg.Pages.Optimizer
+namespace TlrgAutomation.Pages.Optimizer
 {
-    public class LoginPage: BasePage
+    public class LoginPage : BasePage
     {
         private const string PageTitle = "Echo Global Logistics - Echo Optimizer : Login";
 
-        public LoginPage(IWebDriver driver) : base(driver)
+        public LoginPage() : base()
         {
             WaitForLoginPageToLoad();
         }
@@ -26,10 +26,13 @@ namespace Tlrg.Pages.Optimizer
          */
         public void WaitForLoginPageToLoad()
         {
-            WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            Wait.Until(d => UsernameField.Displayed);
-            Wait.Until(d => PasswordField.Displayed);
-            Wait.Until(d => GoButton.Displayed);
+            if (PageDisplayed())
+            {
+                WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                Wait.Until(d => UsernameField.Displayed);
+                Wait.Until(d => PasswordField.Displayed);
+                Wait.Until(d => GoButton.Displayed);
+            }
         }
 
         /**

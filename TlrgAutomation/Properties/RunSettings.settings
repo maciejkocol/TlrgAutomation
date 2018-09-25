@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TlrgAutomation.Properties" GeneratedClassName="RunSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Run_Environment" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DEV1</Value>
+    </Setting>
+    <Setting Name="Run_Headless" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Api_Url" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

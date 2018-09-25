@@ -1,15 +1,15 @@
-﻿using System.Reflection;
+﻿using NUnit.Framework;
+using System.Reflection;
 using System.Runtime.InteropServices;
-using NUnit.Framework;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Tlrg")]
+[assembly: AssemblyTitle("TlrgAutomation")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Tlrg")]
+[assembly: AssemblyProduct("TlrgAutomation")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using NUnit.Framework;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a6d037b4-84de-48da-967e-1fff91060036")]
+[assembly: Guid("b541646b-94cc-4660-a8f0-32b2c95ea694")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -34,5 +34,5 @@ using NUnit.Framework;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: LevelOfParallelism(5)]
+[assembly: LevelOfParallelism(10)]
 //[assembly: Parallelizable(ParallelScope.Fixtures)]

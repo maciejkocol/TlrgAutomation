@@ -2,13 +2,11 @@
 
 namespace Tlrg.Tests
 {
-    internal class TestCategoryAttribute : Attribute
+    internal class CategoryAttribute : Attribute
     {
-#pragma warning disable IDE0044 // Add readonly modifier
         private string v;
-#pragma warning restore IDE0044 // Add readonly modifier
 
-        public TestCategoryAttribute(string v)
+        public CategoryAttribute(string v)
         {
             this.v = v;
         }

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
-namespace Tlrg.Pages.Optimizer
+namespace TlrgAutomation.Pages.Optimizer
 {
-    public class CarrierPage: BasePage
+    public class CarrierPage : BasePage
     {
-        public CarrierPage(IWebDriver driver): base(driver)
+        public CarrierPage() : base()
         {
             driver.Navigate().GoToUrl(env.OptiURL + "/EWSHome.aspx?setRealm=CARRIER");
             AttemptOptimizerLogin(driver, env.OptiUser, env.OptiPassword);
@@ -19,9 +20,9 @@ namespace Tlrg.Pages.Optimizer
         // links
         public IList<IWebElement> CarrierFolders => driver.FindElements(By.XPath("//li/span[@class='folder'][text()]"));
         public IList<IWebElement> CarrierFolderDraggables => driver.FindElementsBy(By.XPath("//li/span[@class='folder'][text()]/..//span[@class='file draggable grabbable ui-draggable']"));
-        
+
         // fields
-        public IWebElement CarrierSearchField => driver.FindElementBy(By.Id("search-field"));
+        new public IWebElement CarrierSearchField => driver.FindElementBy(By.Id("search-field"));
 
         // buttons
         public IWebElement CarrierEdiEditButton => driver.FindElementBy(By.XPath("//div[starts-with(@id,'edi')]//input[@id='btnEdit']"));
@@ -30,75 +31,84 @@ namespace Tlrg.Pages.Optimizer
 
         // checkboxes
         public IWebElement Edi204TLAutoTenderCheckbox => driver.FindElementBy(By.XPath("//input[@class='checkbox' and @id='Outbound204TLAutoTender']"));
-        
+
         // search results
         public IList<IWebElement> CarrierSearchResults => driver.FindElementsBy(By.XPath("//ul[@role='listbox']/li[@role='menuitem']/a[text()]"));
-        
+
         /**
          * Method to select the Outbound 204 TL Auto Tender (EDI) checkbox. 
          */
-        public void ClickEdi204TLAutoTenderCheckbox()
+        public CarrierPage ClickEdi204TLAutoTenderCheckbox()
         {
             WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             Wait.Until(d => Edi204TLAutoTenderCheckbox.Displayed);
             Edi204TLAutoTenderCheckbox.Click();
+            Thread.Sleep(SleepTime);
+            return this;
         }
 
         /**
          * Method to click the Edit button in EDI settings.
          */
-        public void ClickCarrierEdiEditButton()
+        public CarrierPage ClickCarrierEdiEditButton()
         {
             WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             Wait.Until(d => CarrierEdiEditButton.Displayed);
             CarrierEdiEditButton.Click();
+            Thread.Sleep(SleepTime);
+            return this;
         }
 
         /**
          * Method to click the Save button in EDI settings. 
          */
-        public void ClickCarrierEdiSaveButton()
+        public CarrierPage ClickCarrierEdiSaveButton()
         {
             WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             Wait.Until(d => CarrierEdiSaveButton.Displayed);
             CarrierEdiSaveButton.Click();
             Wait.Until(d => CarrierEdiEditButton.Displayed);
+            Thread.Sleep(SleepTime);
+            return this;
         }
 
         /**
          * Method to click the Edit button in Profile Info settings. 
          */
-        public void ClickCarrierProfileEditButton()
+        public CarrierPage ClickCarrierProfileEditButton()
         {
             WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             Wait.Until(d => CarrierProfileEditButton.Displayed);
             CarrierProfileEditButton.Click();
+            return this;
         }
 
         /**
          * Method to wait for the navigation objects to load on the Carrier page.
          */
-        public void WaitForCarrierPageToLoad()
+        public CarrierPage WaitForCarrierPageToLoad()
         {
             WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             Wait.Until(d => CarrierSearchField.Displayed);
+            return this;
         }
 
         /**
          * Method to search for a Carrier by Id. Switches to carrier search field and enters carrier id.
          */
-        public void SearchCarrier(string carrierId)
+        public new CarrierPage SearchCarrier(string carrierId)
         {
             WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             Wait.Until(d => CarrierSearchField.Displayed);
             CarrierSearchField.Clear();
             CarrierSearchField.SendKeys(carrierId);
+            return this;
         }
 
         /**
          * Method to select a carrier by id from search results.
          */
-        public void SelectCarrier(string carrierId)
+        public new CarrierPage SelectCarrier(string carrierId)
         {
             WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             Wait.Until(d => CarrierSearchResults.Count > 0);
@@ -111,21 +121,23 @@ namespace Tlrg.Pages.Optimizer
                     break;
                 }
             }
+            return this;
         }
 
         /**
          * Method to search for and select a carrier from search results.
          */
-        public void SearchAndSelectCarrier(string carrierId)
+        public new CarrierPage SearchAndSelectCarrier(string carrierId)
         {
             SearchCarrier(carrierId);
             SelectCarrier(carrierId);
+            return this;
         }
 
         /**
          * Method to click on an expandable folder.
          */
-        public void AccessFolder(string name)
+        public CarrierPage AccessFolder(string name)
         {
             WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
             Wait.Until(d => CarrierFolders.Count > 0);
@@ -137,12 +149,13 @@ namespace Tlrg.Pages.Optimizer
                     carrierFolder.Click();
                 }
             }
+            return this;
         }
 
         /**
          * Method to double-click on a draggable item under a folder.
          */
-        public void AccessFolderDraggable(string name)
+        public CarrierPage AccessFolderDraggable(string name)
         {
             WebDriverWait Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             Wait.Until(d => CarrierFolderDraggables.Count > 0);
@@ -156,6 +169,7 @@ namespace Tlrg.Pages.Optimizer
                     action.Perform();
                 }
             }
+            return this;
         }
     }
 }

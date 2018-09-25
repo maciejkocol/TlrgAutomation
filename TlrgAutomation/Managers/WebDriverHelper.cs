@@ -1,12 +1,16 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.ObjectModel;
 
-namespace Tlrg
+namespace TlrgAutomation
 {
     public static class WebDriverHelper
     {
+        public static IWebDriver driver;
+        public static EnvironmentManager.Environment env;
         public static ReadOnlyCollection<IWebElement> FindElementsBy(this IWebDriver driver, By by, int timeout = 10)
         {
             IWait<IWebDriver> wait = new DefaultWait<IWebDriver>(driver)

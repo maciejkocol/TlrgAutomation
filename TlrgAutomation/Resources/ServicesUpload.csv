@@ -1,0 +1,12 @@
+Service,Rate Type,Charge
+Team Services,CPM,$0.01 
+Stop 1 Charge,Flat,$90.00 
+Stop 2 Charge,Flat,$125.00 
+Stop 3 Charge,Flat,$150.00 
+Stop 4 Charge,Flat,$200.00 
+Stop 5 Charge,Flat,$200.00 
+Stop 6 Charge,Flat,$200.00 
+Stop 7 Charge,Flat,$200.00 
+Tarp 4 Charge,Flat,$50.00 
+Tarp 6 Charge,Flat,$100.00 
+Tarp 8 Charge,Flat,$150.00
